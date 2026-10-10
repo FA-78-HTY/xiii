@@ -126,6 +126,15 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
 .go{font-size:13px;font-weight:400;color:var(--fg);text-decoration:none;padding:5px 12px;border-radius:999px;background:color-mix(in srgb,var(--sky) 55%,transparent);display:inline-flex;gap:6px;align-items:center;transition:background-color .2s}
 .go:hover{background:var(--sky)}
 .go:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.mine{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 6px;margin-top:14px;font-size:13px}
+.mine span{color:var(--muted);font-weight:300;margin-right:4px}
+.mine button{font:inherit;font-size:13px;color:var(--muted);background:none;border:1px solid transparent;border-radius:999px;padding:3px 10px;cursor:pointer;transition:all .2s}
+.mine button:hover{color:var(--fg);border-color:var(--edge-lo)}
+.mine button[aria-pressed="true"]{color:var(--fg);font-weight:600;border-color:color-mix(in srgb,var(--sel) 60%,transparent);background:color-mix(in srgb,var(--sel) 14%,transparent)}
+.mine button:focus-visible{outline:2px solid var(--sel);outline-offset:1px}
+.mytip{margin:6px 0 4px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--sel) 12%,transparent);border:1px solid color-mix(in srgb,var(--sel) 30%,transparent);font-size:13.5px;font-weight:300;line-height:1.65}
+.mytip b{display:block;font-weight:600;font-size:13px;margin-bottom:2px}
+.mine-tag{font-size:11px;font-weight:600;color:var(--sel);border:1px solid color-mix(in srgb,var(--sel) 55%,transparent);padding:2px 6px;border-radius:6px;line-height:1}
 .seg{display:flex;gap:4px;padding:4px;margin:10px 0 6px;border-radius:999px;background:color-mix(in srgb,var(--lav) 22%,transparent);width:max-content;max-width:100%}
 .seg button{font:inherit;font-size:13.5px;font-weight:400;color:var(--muted);background:none;border:none;border-radius:999px;padding:6px 14px;cursor:pointer;transition:background-color .25s,color .25s}
 .seg button[aria-selected="true"]{background:var(--glass-strong);color:var(--fg);font-weight:600;box-shadow:inset 0 1px 0 var(--edge-hi),0 2px 8px -2px var(--shadow)}
@@ -139,6 +148,10 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
 .st-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding-top:3px}
 .st-h b{font-size:16px;font-weight:600}
 .st-h span{font-size:14px;font-weight:300;color:var(--muted)}
+.st-h .or{font-size:12.5px;font-weight:400;color:var(--muted);margin-left:-4px}
+.ai b{text-align:right}
+.ai .and{font-style:normal;font-weight:300;color:var(--muted);margin:0 6px}
+.gos{display:flex;flex-wrap:wrap;gap:6px}
 .get{margin:6px 0 0;font-size:13px;font-weight:300;color:var(--muted)}
 .get em{font-style:normal;font-weight:400;color:var(--fg);background:color-mix(in srgb,var(--mint) 70%,transparent);padding:1px 7px;border-radius:5px}
 .prompt{margin-top:8px;display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--base) 55%,transparent);border:1px solid var(--edge-lo);border-radius:12px;padding:9px 10px 9px 12px}
@@ -167,6 +180,8 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
   .toggle{top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;transform:scale(.88);transform-origin:top right}
   .search{max-width:none;margin-top:14px;padding:0 14px}
   .search input{padding:10px 0;font-size:14px}
+  .mine{justify-content:flex-start;margin-top:10px;font-size:12px}
+  .mine button{font-size:12px;padding:2px 8px}
   .pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin:12px -14px 0;padding:4px 14px 8px;scrollbar-width:none;max-width:none}
   .pills::-webkit-scrollbar{display:none}
   .pill{flex:none;font-size:13px;padding:6px 12px}
@@ -201,12 +216,17 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
       <input id="q" type="search" placeholder="하고 싶은 일을 적어보세요" autocomplete="off" aria-label="하고 싶은 일 검색">
     </label>
     <p class="nomatch" id="nomatch" hidden>맞는 항목이 없어요. 아래에서 골라보세요.</p>
+    <div class="mine" role="group" aria-label="내가 주로 쓰는 AI">
+      <span>내가 주로 쓰는 AI</span>
+      <button data-m="" aria-pressed="true">상관없음</button><button data-m="chatgpt" aria-pressed="false">ChatGPT</button><button data-m="claude" aria-pressed="false">Claude</button><button data-m="gemini" aria-pressed="false">Gemini</button>
+    </div>
     <div class="pills" id="pills" role="group" aria-label="필요한 도움"></div>
     <section class="panel glass" id="panel" hidden aria-live="polite">
       <div class="seg" role="tablist" aria-label="보기 방식">
         <button role="tab" id="v-pick" aria-selected="true">상황별 추천</button>
         <button role="tab" id="v-guide" aria-selected="false">추천 사용순서</button>
       </div>
+      <div class="mytip" id="mytip" hidden></div>
       <div id="rows"></div>
       <ol class="steps" id="steps" hidden></ol>
     </section>
@@ -219,21 +239,65 @@ const T={chatgpt:["ChatGPT","https://chatgpt.com"],claude:["Claude","https://cla
  claudecode:["Claude Code","https://claude.com/claude-code"],cursor:["Cursor","https://cursor.com"],copilot:["GitHub Copilot","https://github.com/features/copilot"],
  midjourney:["Midjourney","https://www.midjourney.com"],nanobanana:["Nano Banana","https://gemini.google.com"],veo:["Veo","https://deepmind.google/models/veo/"],
  kling:["Kling","https://klingai.com"],runway:["Runway","https://runwayml.com"],suno:["Suno","https://suno.com"],elevenlabs:["ElevenLabs","https://elevenlabs.io"],
- clova:["클로바노트","https://clovanote.naver.com"]};
+ clova:["클로바노트","https://clovanote.naver.com"],codex:["Codex","https://openai.com/codex/"]};
+/* 내가 주로 쓰는 AI로 할 때의 방법 (키워드 순서와 같음) */
+const MY={
+ chatgpt:["Canvas에서 초안을 쓰고, 고칠 문단만 골라 다시 요청하세요. 긴 글은 목차부터 합의하고 나눠 쓰면 흔들림이 줄어요.",
+  "검색 기능이나 Deep Research를 켜고 물어보세요. 답에 달린 출처 링크는 직접 열어 확인하세요.",
+  "공부 모드(Study mode)로 단계별 질문을 받으며 익히고, 교재 내용을 붙여 넣어 퀴즈를 만들어 달라고 하세요.",
+  "'공손한 이메일 톤으로'처럼 말투를 지정해서 번역하면 자연스러워요. 파일째 번역은 DeepL이 더 편해요.",
+  "에러 하나, 함수 하나는 ChatGPT에 바로 묻고, 프로젝트 단위로 기능을 맡길 땐 Codex를 쓰세요.",
+  "배선·회로 사진과 데이터시트 PDF를 올려 핀 연결과 전압을 확인하세요. 최종 배선은 꼭 직접 확인하세요.",
+  "대화로 이미지를 만들고 '배경만 더 밝게'처럼 이어서 고칠 수 있어요. 이미지 속 글자 넣기에 강해요.",
+  "사진을 올리고 바꿀 부분을 말로 지시하세요. 원본과 비교하며 한 번에 하나씩 고치는 게 좋아요.",
+  "대본과 장면 구성까지 맡기고, 실제 영상 생성은 Kling·Veo 같은 전용 도구로 넘기세요.",
+  "나레이션 대본을 쓰고 음성 모드로 읽기 연습을 할 수 있어요. 녹음용 음성은 ElevenLabs가 더 자연스러워요.",
+  "받아쓴 텍스트를 붙여 넣고 결정 사항과 사람별 할 일을 정리해 달라고 하세요.",
+  "슬라이드 구성, 발표 대본, 예상 질문까지 한 대화에서 이어서 만들 수 있어요."],
+ claude:["프로젝트에 참고 자료를 넣어두면 같은 맥락으로 계속 이어 쓸 수 있어요. 긴 글 구조 잡기에 특히 강해요.",
+  "웹 검색을 켜고 조사하거나, 모은 자료 여러 개를 한 번에 올려 비교·정리하게 하세요.",
+  "교재 PDF를 올리고 '단계별로 설명하고 확인 질문을 해줘'라고 하면 과외처럼 공부할 수 있어요.",
+  "논문 문단을 붙여 넣고 번역과 쉬운 설명을 함께 요청하세요. 파일째 번역은 DeepL이 편해요.",
+  "Claude로 설계를 잡고, 실제 구현은 Claude Code에 맡기세요. 간단한 코드는 대화에서 바로 받아도 돼요.",
+  "데이터시트를 올려 구조를 설계하고, 펌웨어와 서버 코드는 Claude Code로 만드세요.",
+  "사진 같은 이미지는 직접 만들지 못해요. 대신 Midjourney용 프롬프트를 써 달라고 하거나, 간단한 도형·디자인은 직접 그려줘요.",
+  "사진 편집은 다른 도구가 필요해요. Nano Banana에 넣을 편집 지시문을 정확하게 써 달라고 하세요.",
+  "장면별 대본과 화면 설명을 맡기고, 영상 생성 도구에 넣을 프롬프트까지 함께 받으세요.",
+  "소리 내어 읽기 좋은 나레이션 대본을 쓰고, 음성은 ElevenLabs로 만드세요.",
+  "받아쓴 회의 텍스트를 올리면 결정 사항, 할 일, 마감일을 표로 정리해줘요.",
+  "발표 흐름을 잡고, 슬라이드까지 직접 만들어 달라고 할 수 있어요."],
+ gemini:["Google Docs 안에서 바로 초안을 쓰고 고칠 수 있어요.",
+  "Deep Research로 여러 출처를 묶은 보고서를 받아보세요. 구글 검색 기반이라 최신 정보에 강해요.",
+  "교재를 올려 퀴즈를 만들고, 자료만 근거로 공부하려면 같은 구글 계정으로 NotebookLM을 함께 쓰세요.",
+  "긴 PDF나 구글 문서를 통째로 번역하기 좋아요.",
+  "Gemini Code Assist나 Google AI Studio로 코딩할 수 있어요. 긴 코드 파일을 한 번에 읽히는 데 강해요.",
+  "데이터시트 PDF와 회로 사진을 함께 넣고 분석하는 데 특히 강해요.",
+  "Nano Banana(Gemini 이미지)로 바로 만들고 편집할 수 있어요.",
+  "Nano Banana로 '배경만 바꿔줘'처럼 원하는 부분만 고칠 수 있어요.",
+  "요금제에 따라 Veo로 영상을 바로 만들 수 있어요. 대본도 같은 곳에서 쓰세요.",
+  "대본은 Gemini로 쓰고, 음성과 음악은 ElevenLabs·Suno 같은 전용 도구가 나아요.",
+  "Google Meet 회의라면 회의 중 자동 요약을 바로 쓸 수 있어요.",
+  "Google Slides 안에서 바로 슬라이드 초안을 만들 수 있어요."]
+};
+const MYNAME={chatgpt:"ChatGPT",claude:"Claude",gemini:"Gemini"};
+const FAM={chatgpt:["chatgpt","codex"],claude:["claude","claudecode"],gemini:["gemini","notebooklm","nanobanana","veo"]};
 const K=[
- ["글쓰기·리포트",[["긴 리포트·자소서","claude","논리 흐름과 문체가 가장 안정적이에요"],["아이디어 뽑기","chatgpt","짧고 다양한 결과를 빠르게 줘요"],["다 쓴 글 검토","chatgpt","쓴 AI와 다른 AI에게 맡기면 빈틈이 잘 보여요"]],["perplexity","claude","chatgpt"]],
- ["자료조사·팩트체크",[["출처 있는 빠른 답","perplexity","답마다 출처 링크가 붙어 바로 확인할 수 있어요"],["조사 보고서","gemini","Deep Research가 여러 출처를 묶어 정리해요"],["자료 비교·분석","claude","긴 자료를 함께 넣고 비교 정리해요"]],["perplexity","gemini","claude"]],
- ["공부·시험",[["교재 내용 정리","notebooklm","올린 자료 밖의 내용을 지어내지 않아요"],["개념 이해","claude","단계별로 쉽게 다시 설명해줘요"],["문제 만들기","chatgpt","예상 문제와 퀴즈를 다양하게 만들어요"]],["notebooklm","chatgpt","claude"]],
- ["번역",[["문서 파일 번역","deepl","Word·PDF 서식을 그대로 유지해요"],["논문 번역 + 이해","claude","번역과 함께 쉬운 설명을 해줘요"],["영어 메일 쓰기","chatgpt","톤 조절이 쉬워요"]],null],
- ["코딩·개발",[["프로젝트 구현","claudecode","여러 파일을 읽고 고치며 끝까지 수행해요"],["설계·기획","claude","기능, 데이터 구조, 화면 흐름을 정리해요"],["편집기에서 수정","cursor","코드와 AI를 한 화면에서 써요"]],["claude","claudecode","cursor"]],
- ["IoT·하드웨어",[["데이터시트 읽기","gemini","긴 PDF와 회로 사진을 함께 이해해요"],["시스템 설계","claude","센서→보드→서버 구조를 논리적으로 정리해요"],["펌웨어·서버 코드","claudecode","보드 코드와 서버 코드를 함께 관리해요"]],["gemini","claude","claudecode"]],
- ["이미지 만들기",[["분위기 있는 일러스트","midjourney","미적 완성도가 가장 높아요"],["글자가 들어간 이미지","chatgpt","이미지 속 글자 표현이 정확한 편이에요"],["같은 캐릭터 여러 장면","nanobanana","캐릭터 일관성을 잘 유지해요"]],null],
- ["사진 편집",[["배경 바꾸기·지우기","nanobanana","말로 지시하면 원하는 부분만 고쳐요"],["스타일 바꾸기","chatgpt","사진을 다른 화풍으로 쉽게 바꿔요"]],null],
- ["영상 만들기",[["실사 장면 생성","veo","실사 품질에 소리까지 함께 만들어요"],["이미지를 영상으로","kling","품질 대비 가격이 좋아요"],["카메라 연출","runway","모션 컨트롤과 편집 도구가 강해요"]],["claude","midjourney","kling","elevenlabs"]],
- ["음성·음악",[["나레이션","elevenlabs","한국어 음성이 자연스러워요"],["영상 더빙","elevenlabs","원래 목소리 느낌을 유지해요"],["노래·배경음악","suno","보컬까지 들어간 완성곡을 만들어요"]],null],
- ["강의·회의 정리",[["한국어 받아쓰기","clova","한국어 정확도가 높고 화자를 구분해요"],["요약·할 일 정리","claude","결정 사항과 할 일을 뽑아줘요"],["구글 Meet 회의","gemini","Meet 안에서 바로 요약해요"]],["clova","claude"]],
- ["발표자료",[["내용·흐름 짜기","claude","슬라이드별 핵심 문장과 순서를 잡아줘요"],["대본·예상 질문","chatgpt","질문 리스트와 답변 연습에 좋아요"],["구글 Slides 초안","gemini","Slides 안에서 바로 초안을 만들어요"]],null]
+ ["글쓰기·리포트",[["긴 리포트·자소서",["claude","chatgpt"],"둘 다 긴 글을 잘 써요. Claude는 문체가 차분하고, ChatGPT는 Canvas로 부분 수정이 편해요"],["아이디어 뽑기",["chatgpt","gemini"],"짧고 다양한 결과를 빠르게 줘요"],["다 쓴 글 검토",["chatgpt","claude"],"글을 쓴 AI가 아닌 다른 쪽에 맡기면 빈틈이 잘 보여요"]],1],
+ ["자료조사·팩트체크",[["출처 있는 빠른 답","perplexity","답마다 출처 링크가 붙어 바로 확인할 수 있어요"],["조사 보고서",["gemini","chatgpt"],"둘 다 Deep Research로 여러 출처를 묶어 보고서를 만들어요"],["자료 비교·분석",["claude","gemini"],"긴 자료 여러 개를 한 번에 넣고 비교하기 좋아요"]],1],
+ ["공부·시험",[["교재 내용 정리","notebooklm","올린 자료 밖의 내용을 지어내지 않아요"],["개념 이해",["chatgpt","claude"],"ChatGPT는 공부 모드, Claude는 단계별 설명이 강점이에요"],["문제 만들기",["chatgpt","gemini"],"예상 문제와 퀴즈를 다양하게 만들어요"]],1],
+ ["번역",[["문서 파일 번역","deepl","Word·PDF 서식을 그대로 유지해요"],["논문 번역 + 이해",["claude","chatgpt"],"번역과 함께 쉬운 설명을 해줘요"],["영어 메일 쓰기",["chatgpt","claude"],"말투를 지정하면 자연스럽게 써줘요"]],0],
+ ["코딩·개발",[["프로젝트 구현",["claudecode","codex"],"둘 다 여러 파일을 읽고 고치는 코딩 에이전트예요. 쓰는 구독(Claude/ChatGPT)에 맞춰 고르세요"],["설계·기획",["claude","chatgpt"],"기능, 데이터 구조, 화면 흐름을 정리해요"],["에러 하나 빨리 해결",["chatgpt","claude"],"에러 메시지를 붙여 넣으면 원인과 수정 코드를 바로 줘요"],["편집기에서 수정",["cursor","copilot"],"Cursor는 AI 중심 편집기, Copilot은 쓰던 IDE에 붙여 써요"]],1],
+ ["IoT·하드웨어",[["데이터시트 읽기",["gemini","chatgpt"],"긴 PDF와 회로 사진을 함께 이해해요"],["시스템 설계",["claude","chatgpt"],"센서→보드→서버 구조를 논리적으로 정리해요"],["펌웨어·서버 코드",["claudecode","codex"],"보드 코드와 서버 코드를 함께 관리해요"]],1],
+ ["이미지 만들기",[["분위기 있는 일러스트","midjourney","미적 완성도가 가장 높아요"],["글자가 들어간 이미지",["chatgpt","nanobanana"],"이미지 속 글자 표현이 정확한 편이에요"],["같은 캐릭터 여러 장면",["nanobanana","chatgpt"],"캐릭터 일관성을 잘 유지해요"]],1],
+ ["사진 편집",[["배경 바꾸기·지우기",["nanobanana","chatgpt"],"말로 지시하면 원하는 부분만 고쳐요"],["스타일 바꾸기",["chatgpt","nanobanana"],"사진을 다른 화풍으로 쉽게 바꿔요"]],0],
+ ["영상 만들기",[["실사 장면 생성",["veo","kling"],"Veo는 실사 품질과 소리, Kling은 가성비가 강점이에요"],["이미지를 영상으로",["kling","runway"],"가진 이미지를 자연스럽게 움직여요"],["카메라 연출","runway","모션 컨트롤과 편집 도구가 강해요"]],1],
+ ["음성·음악",[["나레이션","elevenlabs","한국어 음성이 자연스러워요"],["영상 더빙","elevenlabs","원래 목소리 느낌을 유지해요"],["노래·배경음악","suno","보컬까지 들어간 완성곡을 만들어요"]],0],
+ ["강의·회의 정리",[["한국어 받아쓰기","clova","한국어 정확도가 높고 화자를 구분해요"],["요약·할 일 정리",["chatgpt","claude"],"결정 사항과 사람별 할 일을 뽑아줘요"],["구글 Meet 회의","gemini","Meet 안에서 바로 요약해요"]],1],
+ ["발표자료",[["내용·흐름 짜기",["claude","chatgpt"],"슬라이드별 핵심 문장과 순서를 잡아줘요"],["대본·예상 질문",["chatgpt","claude"],"질문 리스트와 답변 연습에 좋아요"],["구글 Slides 초안","gemini","Slides 안에서 바로 초안을 만들어요"]],0]
 ];
+/* 사용순서 단계에서 같은 역할을 하는 대안 AI ("또는 ○○"로 표시) */
+const ALT={claude:"chatgpt",chatgpt:"claude",claudecode:"codex",gemini:"chatgpt"};
+const NOALT=new Set(["0-2"]); /* 다른 AI로 교차 검토하는 단계는 대안 표시 안 함 */
 /* 순서대로 하기: [AI, 할 일, 얻는 것(다음 단계로 가져갈 것), 복사용 프롬프트] — [ ] 안은 직접 바꿔 넣는 부분 */
 const G=[
  [["perplexity","자료 모으기","출처 달린 자료·수치 목록","[주제]에 대한 최신 통계와 핵심 근거를 출처 링크와 함께 정리해줘."],
@@ -288,7 +352,12 @@ const SYN=[
 ];
 const $=s=>document.querySelector(s);
 const chev='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
-let cur=-1,view="pick";
+let cur=-1,view="pick",mine="";
+try{const m=localStorage.getItem("mine");if(m&&MY[m])mine=m}catch(e){}
+function setMine(m){mine=m;document.querySelectorAll(".mine button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));
+  try{localStorage.setItem("mine",m)}catch(e){}if(cur>=0)pick(cur)}
+document.querySelector(".mine").addEventListener("click",e=>{const b=e.target.closest("button");if(b)setMine(b.dataset.m)});
+document.querySelectorAll(".mine button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===mine));
 function showView(v){view=v;$("#rows").hidden=v!=="pick";$("#steps").hidden=v!=="guide";
   $("#v-pick").setAttribute("aria-selected",v==="pick");$("#v-guide").setAttribute("aria-selected",v==="guide");
   try{localStorage.setItem("view",v)}catch(e){}}
@@ -298,16 +367,22 @@ function pick(i){
   cur=i;document.body.classList.add("picked");
   document.querySelectorAll(".pill").forEach(p=>p.setAttribute("aria-pressed",+p.dataset.i===i));
   const [,cases,flow]=K[i];
-  $("#rows").innerHTML=cases.map((c,j)=>`<div class="row${j===0?" open":""}">
+  const isMine=id=>mine&&FAM[mine].includes(id);
+  $("#rows").innerHTML=cases.map((c,j)=>{
+    let ids=[].concat(c[1]);if(mine)ids=[...ids.filter(isMine),...ids.filter(x=>!isMine(x))];
+    const has=ids.some(isMine);
+    return `<div class="row${j===0?" open":""}">
     <button class="row-h" aria-expanded="${j===0}"><span class="sit"><i class="dot"></i>${c[0]}</span>
-    <span class="ai"><b>${T[c[1]][0]}</b>${j===0?'<span class="tag">추천</span>':""}${chev}</span></button>
-    <div class="row-b"><div><div class="in"><p>${c[2]}</p><a class="go" href="${T[c[1]][1]}" target="_blank" rel="noopener">사이트 열기 <span>↗</span></a></div></div></div></div>`).join("");
+    <span class="ai"><b>${ids.map(id=>T[id][0]).join('<i class="and">·</i>')}</b>${has?'<span class="mine-tag">내 AI</span>':(j===0?'<span class="tag">추천</span>':"")}${chev}</span></button>
+    <div class="row-b"><div><div class="in"><p>${c[2]}</p><span class="gos">${ids.map(id=>`<a class="go" href="${T[id][1]}" target="_blank" rel="noopener">${ids.length>1?T[id][0]+" ":"사이트 "}열기 <span>↗</span></a>`).join("")}</span></div></div></div></div>`}).join("");
   const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   $("#steps").innerHTML=G[i].map((s,j)=>`<li class="step"><span class="num">${j+1}</span><div>
-    <div class="st-h"><b>${T[s[0]][0]}</b><span>${s[1]}</span><a class="st-go" href="${T[s[0]][1]}" target="_blank" rel="noopener">열기 ↗</a></div>
+    <div class="st-h"><b>${T[s[0]][0]}</b>${ALT[s[0]]&&!NOALT.has(i+"-"+j)?`<small class="or">또는 ${T[ALT[s[0]]][0]}</small>`:""}<span>${s[1]}</span><a class="st-go" href="${T[s[0]][1]}" target="_blank" rel="noopener">열기 ↗</a></div>
     <p class="get">얻는 것 <em>${s[2]}</em></p>
     <div class="prompt"><p>${esc(s[3]).replace(/\n/g,"<br>").replace(/\[([^\]]+)\]/g,"<mark>[$1]</mark>")}</p><button class="copy" data-t="${esc(s[3])}">복사</button></div>
   </div></li>`).join("");
+  const tip=$("#mytip");
+  if(mine){tip.innerHTML=`<b>${MYNAME[mine]}로 할 때</b>${MY[mine][i]}`;tip.hidden=false}else tip.hidden=true;
   showView(view);
   const panel=$("#panel");panel.hidden=false;panel.classList.remove("enter");void panel.offsetWidth;panel.classList.add("enter");
   try{localStorage.setItem("need",i)}catch(e){}
