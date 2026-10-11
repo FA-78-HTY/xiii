@@ -76,6 +76,75 @@ body{background:var(--base);color:var(--fg);font-family:var(--font);-webkit-font
 .toggle svg{width:16px;height:16px}
 .toggle:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
 
+/* 사용법 버튼 + 첫 방문 안내 (한 장씩 넘기는 방식) */
+.help{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 20px);right:100px;width:38px;height:38px;border:none;border-radius:50%;font:inherit;font-size:16px;font-weight:600;color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.help:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+.intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:color-mix(in srgb,var(--base) 45%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadein .3s ease}
+.intro[hidden]{display:none!important}
+.intro.out{animation:fadeout .25s ease forwards}
+@keyframes fadein{from{opacity:0}}
+@keyframes fadeout{to{opacity:0}}
+.intro-card{word-break:keep-all;width:100%;max-width:440px;max-height:calc(100% - 20px);overflow:auto;border-radius:26px;padding:22px 22px 18px;background:var(--glass-strong);animation:pop .45s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.96)}}
+.intro-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.intro-eye{margin:0;font-size:12.5px;font-weight:400;color:var(--sel);letter-spacing:.04em}
+.intro-x{font:inherit;font-size:20px;line-height:1;color:var(--muted);background:none;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer}
+.intro-x:focus-visible{outline:2px solid var(--sel)}
+.slides{overflow:hidden;margin-top:10px}
+.track{display:flex;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.slide{flex:0 0 100%;min-width:0}
+.slide h2{margin:14px 0 0;font-size:21px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.slide h2 small{font-size:11px;font-weight:400;color:var(--muted);border:1px solid var(--edge-lo);border-radius:5px;padding:1px 6px}
+.slide p.desc{margin:6px 0 0;font-size:14px;font-weight:300;line-height:1.7;color:var(--muted);min-height:4.9em}
+.slide p.desc em{font-style:normal;font-weight:500;color:var(--fg)}
+
+/* 미니 화면 그림: 해당 부분만 밝게, 나머지는 흐리게 */
+.mini{position:relative;border-radius:16px;padding:12px 12px 10px;background:color-mix(in srgb,var(--base) 70%,transparent);border:1px solid var(--edge-lo);overflow:hidden;font-size:9.5px;line-height:1.3;color:var(--fg);user-select:none}
+.mini::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 20% 15%,color-mix(in srgb,var(--b1) 45%,transparent),transparent 45%),radial-gradient(circle at 85% 90%,color-mix(in srgb,var(--b3) 45%,transparent),transparent 45%);pointer-events:none}
+.mini>*{position:relative}
+.m-part{transition:opacity .35s,filter .35s;border-radius:8px}
+.mini .m-part{opacity:.22;filter:grayscale(1)}
+.mini[data-hl="pick"] .m-pick,.mini[data-hl="mine"] .m-mine,.mini[data-hl="tabs"] .m-tabs,.mini[data-hl="prompt"] .m-prompt{opacity:1;filter:none;box-shadow:0 0 0 2px var(--sel),0 0 18px 2px color-mix(in srgb,var(--sel) 55%,transparent);animation:ring 1.8s ease-in-out infinite}
+@keyframes ring{50%{box-shadow:0 0 0 3px var(--sel),0 0 26px 6px color-mix(in srgb,var(--sel) 40%,transparent)}}
+.m-title{text-align:center;font-weight:600;font-size:13px;letter-spacing:.12em;opacity:.35}
+.m-pick{margin-top:5px;padding:4px}
+.m-pills{margin-top:0!important}
+.m-search{display:flex;align-items:center;gap:5px;margin:0 auto;max-width:78%;background:var(--glass-strong);border-radius:999px;padding:5px 9px;color:var(--muted)}
+.m-search i{font-style:normal;color:var(--fg)}
+.m-search i::after{content:"";display:inline-block;width:1px;height:1.1em;background:var(--sel);vertical-align:-2px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.m-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;margin-top:6px}
+.m-pills span{background:var(--glass-strong);border-radius:999px;padding:2px 7px}
+.m-pills span.on{background:var(--sel);color:var(--on-sel);font-weight:600}
+.m-mine{display:flex;justify-content:center;flex-wrap:wrap;gap:3px 6px;margin:4px auto 0;padding:3px 6px;width:max-content;max-width:100%;color:var(--muted)}
+.m-mine b{font-weight:600;color:var(--fg);border:1px solid color-mix(in srgb,var(--sel) 60%,transparent);background:color-mix(in srgb,var(--sel) 14%,transparent);border-radius:999px;padding:0 5px}
+.m-panel{margin-top:8px;background:var(--glass-strong);border-radius:12px;padding:7px 9px}
+.m-tabs{display:flex;gap:2px;padding:2px;width:max-content;background:color-mix(in srgb,var(--lav) 22%,transparent);border-radius:999px}
+.m-tabs span{padding:2px 7px;border-radius:999px;color:var(--muted)}
+.m-tabs span.on{background:var(--glass);color:var(--fg);font-weight:600}
+.m-row{display:flex;justify-content:space-between;margin-top:7px;padding-bottom:5px;border-bottom:1px solid var(--edge-lo);opacity:.4}
+.m-row b{font-weight:600}
+.m-prompt{display:flex;align-items:center;gap:6px;margin-top:6px;padding:5px 7px;background:color-mix(in srgb,var(--base) 55%,transparent);border:1px solid var(--edge-lo)}
+.m-prompt span:first-child{flex:1;min-width:0}
+.m-prompt u{text-decoration:none;color:var(--sel);font-weight:600;background:color-mix(in srgb,var(--sel) 18%,transparent);border-bottom:1px dashed var(--sel);border-radius:3px;padding:0 3px}
+.m-prompt em{font-style:normal;border:1px solid var(--edge-lo);background:var(--glass-strong);border-radius:999px;padding:1px 6px}
+
+.intro-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px}
+.dots{display:flex;gap:6px}
+.dots i{width:7px;height:7px;border-radius:999px;background:color-mix(in srgb,var(--muted) 35%,transparent);transition:width .3s,background-color .3s}
+.dots i.on{width:20px;background:var(--sel)}
+.dots i.done{background:color-mix(in srgb,var(--sel) 55%,transparent)}
+.nav-btns{display:flex;gap:8px}
+.intro-prev,.intro-next{font:inherit;font-size:14px;border-radius:999px;padding:9px 18px;cursor:pointer;transition:transform .2s,opacity .2s}
+.intro-prev{color:var(--muted);background:none;border:1px solid var(--edge-lo)}
+.intro-prev:disabled{opacity:0;pointer-events:none}
+.intro-next{font-weight:600;color:var(--on-sel);background:var(--sel);border:none;min-width:96px;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 8px 22px -8px var(--sel)}
+.intro-next.final{min-width:120px}
+.intro-next:hover{transform:translateY(-1px)}
+.intro-prev:focus-visible,.intro-next:focus-visible{outline:2px solid color-mix(in srgb,var(--sel) 45%,transparent);outline-offset:3px}
+.intro-foot{margin:12px 0 0;text-align:center;font-size:12px;font-weight:300;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.track{transition:none}}
+
 /* 본문 */
 main{position:relative;z-index:1;min-height:100%;display:flex;justify-content:center;padding-inline:20px;padding-block:72px 56px}
 .spine{width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;transition:padding-top .6s cubic-bezier(.16,1,.3,1)}
@@ -154,10 +223,20 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
 .gos{display:flex;flex-wrap:wrap;gap:6px}
 .get{margin:6px 0 0;font-size:13px;font-weight:300;color:var(--muted)}
 .get em{font-style:normal;font-weight:400;color:var(--fg);background:color-mix(in srgb,var(--mint) 70%,transparent);padding:1px 7px;border-radius:5px}
-.prompt{margin-top:8px;display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--base) 55%,transparent);border:1px solid var(--edge-lo);border-radius:12px;padding:9px 10px 9px 12px}
-.prompt p{margin:0;flex:1;min-width:0;font-size:13px;font-weight:300;line-height:1.6;color:var(--fg)}
-.prompt p mark{background:none;color:var(--sel);font-weight:600}
-.copy{flex:none;font:inherit;font-size:12px;color:var(--fg);background:var(--glass-strong);border:1px solid var(--edge-lo);border-radius:999px;padding:3px 10px;cursor:pointer}
+.pwrap{flex-basis:100%;min-width:0}
+.pnote{margin:2px 0 0;font-size:12px;font-weight:300;color:var(--muted)}
+.pnote::before{content:"↳ ";color:var(--sel)}
+.prompt{margin-top:8px;display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--base) 55%,transparent);border:1px solid var(--edge-lo);border-radius:12px;padding:10px 10px 10px 12px}
+.ptext{flex:1;min-width:0;font-size:13.5px;font-weight:300;line-height:2.05;color:var(--fg);word-break:keep-all;overflow-wrap:anywhere}
+.ptext mark.paste{background:none;color:var(--muted);font-weight:400;font-style:italic}
+.blank{font:inherit;font-size:13px;font-weight:600;color:var(--sel);background:color-mix(in srgb,var(--sel) 12%,transparent);border:none;border-bottom:1.5px dashed color-mix(in srgb,var(--sel) 70%,transparent);border-radius:6px 6px 2px 2px;padding:1px 6px;margin:0 1px;min-width:3em;max-width:100%;line-height:1.5;vertical-align:baseline;transition:background-color .2s}
+.blank::placeholder{color:color-mix(in srgb,var(--sel) 55%,var(--fg));font-weight:500;opacity:1}
+.blank:placeholder-shown{background:color-mix(in srgb,var(--sel) 18%,transparent)}
+.blank:focus{outline:none;background:color-mix(in srgb,var(--sel) 22%,transparent);border-bottom-style:solid}
+.blank:not(:placeholder-shown){color:var(--fg);background:color-mix(in srgb,var(--mint) 65%,transparent);border-bottom-color:transparent}
+.pfall{display:block;width:100%;margin-top:6px;font:inherit;font-size:13px;color:var(--fg);background:var(--glass-strong);border:1px solid var(--sel);border-radius:10px;padding:8px 10px;resize:none}
+.copy{flex:none;font:inherit;font-size:12px;color:var(--fg);background:var(--glass-strong);border:1px solid var(--edge-lo);border-radius:999px;padding:3px 10px;cursor:pointer;transition:background-color .2s,color .2s}
+.copy.ok{background:var(--sel);color:var(--on-sel);border-color:transparent}
 .copy:focus-visible{outline:2px solid var(--sel);outline-offset:1px}
 .st-go{font-size:12.5px;color:var(--muted);text-decoration:none;margin-left:auto}
 .st-go:hover{color:var(--fg)}
@@ -178,6 +257,9 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
   h1{font-size:26px;text-align:left;letter-spacing:.1em;padding-left:0;padding-right:96px;line-height:38px}
   .ask{display:none}
   .toggle{top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;transform:scale(.88);transform-origin:top right}
+  .help{top:calc(env(safe-area-inset-top,0px) + 14px);right:84px;width:34px;height:34px;font-size:15px}
+  h1{padding-right:128px}
+  .intro-card{padding:22px 18px 16px}
   .search{max-width:none;margin-top:14px;padding:0 14px}
   .search input{padding:10px 0;font-size:14px}
   .mine{justify-content:flex-start;margin-top:10px;font-size:12px}
@@ -200,6 +282,27 @@ h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1.1;lette
 <div class="spot" aria-hidden="true"></div>
 <div class="core" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
+
+<button class="help glass" id="help" type="button" aria-label="사용법 보기" title="사용법">?</button>
+
+<div class="intro" id="intro" hidden>
+  <div class="intro-card glass" role="dialog" aria-modal="true" aria-labelledby="intro-t" aria-describedby="intro-live">
+    <div class="intro-top">
+      <p class="intro-eye" id="intro-t">XIII 사용법 · <span id="intro-count">1 / 4</span></p>
+      <button class="intro-x" id="intro-x" type="button" aria-label="닫기" hidden>×</button>
+    </div>
+    <div class="slides"><div class="track" id="track"></div></div>
+    <p class="sr" id="intro-live" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></p>
+    <div class="intro-nav">
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="nav-btns">
+        <button class="intro-prev" id="intro-prev" type="button">이전</button>
+        <button class="intro-next" id="intro-next" type="button">다음</button>
+      </div>
+    </div>
+    <p class="intro-foot">다시 보려면 오른쪽 위 <b>?</b> 를 누르세요</p>
+  </div>
+</div>
 
 <button class="toggle glass" id="theme" role="switch" aria-checked="false" aria-label="다크 모드">
   <i class="thumb"></i>
@@ -295,6 +398,47 @@ const K=[
  ["강의·회의 정리",[["한국어 받아쓰기","clova","한국어 정확도가 높고 화자를 구분해요"],["요약·할 일 정리",["chatgpt","claude"],"결정 사항과 사람별 할 일을 뽑아줘요"],["구글 Meet 회의","gemini","Meet 안에서 바로 요약해요"]],1],
  ["발표자료",[["내용·흐름 짜기",["claude","chatgpt"],"슬라이드별 핵심 문장과 순서를 잡아줘요"],["대본·예상 질문",["chatgpt","claude"],"질문 리스트와 답변 연습에 좋아요"],["구글 Slides 초안","gemini","Slides 안에서 바로 초안을 만들어요"]],0]
 ];
+/* 상황별 추천 프롬프트 (K의 각 줄과 같은 순서). [ ]는 화면에서 채우는 빈칸, [… 붙여넣기]는 AI에 붙여 넣을 자리, null은 프롬프트 없음 */
+const P=[
+ ["[글 종류]를 쓰려고 해. 주제는 [주제], 읽는 사람은 [대상], 분량은 [분량]이야. 먼저 목차를 제안하고, 내가 확인하면 본문을 써줘.",
+  "[주제]로 [글 종류]를 쓰려고 해. 서로 다른 방향의 아이디어 10개를 한 줄씩 제안하고, 그중 가장 독창적인 3개는 이유도 알려줘.",
+  "아래 글을 [대상] 입장에서 읽고, 논리가 약한 부분, 어색한 문장, 빠진 내용을 찾아서 고칠 방법과 함께 알려줘.\n[글 붙여넣기]"],
+ ["[주제]에 대해 [궁금한 점]을 알려줘. 핵심만 5줄로 정리하고, 각 내용의 출처 링크를 달아줘.",
+  "[주제]를 깊게 조사해서 보고서로 정리해줘. [궁금한 점]을 중심으로, 서로 다른 주장과 근거, 아직 불확실한 부분도 구분해줘.",
+  "아래 자료들을 비교해서 공통점, 차이점, 서로 충돌하는 내용을 표로 정리하고, [결정할 것]에 대한 결론을 근거와 함께 알려줘.\n[자료 붙여넣기]"],
+ ["올린 자료에서 [단원]의 핵심 개념을 시험에 나올 만한 순서로 정리해줘. 개념마다 한 줄 정의와 자주 나오는 함정을 붙여줘.",
+  "[개념]이 이해가 안 돼. 비유를 들어 쉽게 설명하고 단계별로 풀어준 뒤, 내가 이해했는지 확인하는 질문 2개를 해줘. 내 수준은 [수준]이야.",
+  "[과목]의 [단원]으로 [객관식/서술형] 예상 문제 10개를 만들어줘. 난이도를 섞고, 정답과 해설은 내가 다 푼 뒤에 알려줘."],
+ [null,
+  "아래 [분야] 논문 문단을 자연스러운 한국어로 번역해줘. 그다음 핵심 내용을 쉬운 말로 3줄 요약하고, 전공 용어는 원어와 함께 정리해줘.\n[문단 붙여넣기]",
+  "[받는 사람]에게 보낼 영어 이메일을 써줘. 목적은 [목적]이고, 말투는 [공손하게/편하게]로 해줘. 제목도 같이 제안해줘."],
+ ["[만들 프로그램]을 만들어줘. 핵심 기능은 [기능]이고, [언어/기술]로 만들어줘. 먼저 계획을 보여주고, 기능을 하나씩 구현하면서 테스트해줘.",
+  "[만들 프로그램]을 만들려고 해. 필요한 기능 목록, 데이터 구조, 화면 흐름을 정리하고, 초보자에게 맞는 기술 스택을 이유와 함께 추천해줘.",
+  "[언어/기술]로 코드를 짜는데 아래 에러가 나. 원인을 설명하고 고친 코드를 보여줘.\n[에러 메시지 붙여넣기]\n[관련 코드 붙여넣기]",
+  "이 부분에서 [문제 상황]이 생겨. 원인을 찾아서 고치고, 무엇을 바꿨는지 설명해줘."],
+ ["[부품]의 핀 배치, 동작 전압, 통신 방식, 주의사항을 표로 정리해줘. [보드]에 연결할 때의 배선도 알려줘.",
+  "[센서]로 [측정값]을 측정해서 [보드]로 처리하고 [서버/앱]에서 보려고 해. 전체 구조, 통신 방식, 필요한 부품 목록을 설계해줘.",
+  "[보드]에서 [센서] 값을 [주기]마다 읽어서 [서버/앱]으로 보내는 코드를 만들어줘. 연결이 끊겼을 때 다시 연결하는 처리도 넣어줘."],
+ ["[그릴 대상], [스타일] style, [분위기] mood, soft lighting, highly detailed --ar [비율]",
+  "[용도]용 이미지를 만들어줘. 가운데에 \"[넣을 문구]\"라는 글자를 또렷하게 넣고, 스타일은 [스타일], 비율은 [비율]로 해줘.",
+  "이 캐릭터의 얼굴, 옷, 색감은 그대로 유지하고 [새 장면]에 있는 모습으로 그려줘."],
+ ["인물은 그대로 두고 배경만 [원하는 배경]으로 바꿔줘. [지울 것]은 지워주고, 조명은 자연스럽게 맞춰줘.",
+  "이 사진을 [원하는 스타일] 느낌으로 바꿔줘. 구도와 인물 생김새는 그대로 유지해줘."],
+ ["[장면 설명]. 카메라는 [카메라 움직임], 분위기는 [분위기], 길이는 [길이]초. 배경 소리는 [소리].",
+  "[움직일 대상]이 [움직임]. 카메라는 [카메라 움직임], 배경은 거의 움직이지 않게.",
+  "카메라가 [카메라 움직임]하면서 [움직일 대상]을 따라가는 장면. 속도는 천천히, 길이는 [길이]초."],
+ ["아래 내용을 [길이]초 분량의, 소리 내어 읽기 좋은 나레이션 대본으로 바꿔줘. 문장은 짧게, 강조할 곳 앞뒤엔 쉼표를 넣어줘.\n[내용 붙여넣기]",
+  null,
+  "[주제]에 대한 [장르] 노래, 분위기는 [분위기], [보컬 있음/없음], 템포는 [템포]"],
+ [null,
+  "아래 [회의/강의] 기록에서 핵심 내용, 결정된 것, 사람별 할 일과 마감일을 표로 정리해줘. 애매하게 끝난 논의는 따로 표시해줘.\n[받아쓴 텍스트 붙여넣기]",
+  "이번 회의에서 결정된 것과 [이름]이 해야 할 일만 정리해줘."],
+ ["[발표 주제]로 [발표 시간]분 발표를 해. 듣는 사람은 [청중]이야. 슬라이드 [장수]장 구성을 짜고, 장마다 제목, 핵심 문장 하나, 넣을 자료를 정해줘.",
+  "아래 슬라이드 구성으로 [발표 시간]분 분량의 발표 대본을 써주고, [청중]이 할 만한 예상 질문 5개와 답변도 만들어줘.\n[슬라이드 구성 붙여넣기]",
+  "[발표 주제]에 대한 [장수]장짜리 발표 슬라이드를 만들어줘. 깔끔한 디자인으로, 장마다 핵심 문장 하나만 넣어줘."]
+];
+/* 프롬프트 앞에 붙는 사용 안내 (파일·이미지를 먼저 올려야 하는 경우) */
+const PNOTE={"2-0":"NotebookLM에 교재를 올린 뒤","4-3":"편집기에서 코드를 선택한 뒤","5-0":"데이터시트 PDF를 올린 뒤","6-0":"Midjourney용 영어 프롬프트예요. 빈칸도 영어로 쓰면 좋아요","6-2":"캐릭터 이미지를 올린 뒤","7-0":"사진을 올린 뒤","7-1":"사진을 올린 뒤","8-1":"이미지를 올린 뒤","8-2":"이미지를 올린 뒤","9-0":"ChatGPT나 Claude에서 대본을 만든 뒤 ElevenLabs에 넣으세요","10-2":"Meet 회의가 끝난 뒤 Gemini에게","11-2":"Google Slides의 Gemini에서"};
 /* 사용순서 단계에서 같은 역할을 하는 대안 AI ("또는 ○○"로 표시) */
 const ALT={claude:"chatgpt",chatgpt:"claude",claudecode:"codex",gemini:"chatgpt"};
 const NOALT=new Set(["0-2"]); /* 다른 AI로 교차 검토하는 단계는 대안 표시 안 함 */
@@ -374,13 +518,14 @@ function pick(i){
     return `<div class="row${j===0?" open":""}">
     <button class="row-h" aria-expanded="${j===0}"><span class="sit"><i class="dot"></i>${c[0]}</span>
     <span class="ai"><b>${ids.map(id=>T[id][0]).join('<i class="and">·</i>')}</b>${has?'<span class="mine-tag">내 AI</span>':(j===0?'<span class="tag">추천</span>':"")}${chev}</span></button>
-    <div class="row-b"><div><div class="in"><p>${c[2]}</p><span class="gos">${ids.map(id=>`<a class="go" href="${T[id][1]}" target="_blank" rel="noopener">${ids.length>1?T[id][0]+" ":"사이트 "}열기 <span>↗</span></a>`).join("")}</span></div></div></div></div>`}).join("");
-  const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    <div class="row-b"><div><div class="in"><p>${c[2]}</p><span class="gos">${ids.map(id=>`<a class="go" href="${T[id][1]}" target="_blank" rel="noopener">${ids.length>1?T[id][0]+" ":"사이트 "}열기 <span>↗</span></a>`).join("")}</span>
+    ${P[i][j]?promptBox(P[i][j],PNOTE[i+"-"+j]):""}</div></div></div></div>`}).join("");
   $("#steps").innerHTML=G[i].map((s,j)=>`<li class="step"><span class="num">${j+1}</span><div>
     <div class="st-h"><b>${T[s[0]][0]}</b>${ALT[s[0]]&&!NOALT.has(i+"-"+j)?`<small class="or">또는 ${T[ALT[s[0]]][0]}</small>`:""}<span>${s[1]}</span><a class="st-go" href="${T[s[0]][1]}" target="_blank" rel="noopener">열기 ↗</a></div>
     <p class="get">얻는 것 <em>${s[2]}</em></p>
-    <div class="prompt"><p>${esc(s[3]).replace(/\n/g,"<br>").replace(/\[([^\]]+)\]/g,"<mark>[$1]</mark>")}</p><button class="copy" data-t="${esc(s[3])}">복사</button></div>
+    ${promptBox(s[3])}
   </div></li>`).join("");
+  document.querySelectorAll("#panel .blank").forEach(fit);
   const tip=$("#mytip");
   if(mine){tip.innerHTML=`<b>${MYNAME[mine]}로 할 때</b>${MY[mine][i]}`;tip.hidden=false}else tip.hidden=true;
   showView(view);
@@ -389,10 +534,35 @@ function pick(i){
 }
 $("#pills").addEventListener("click",e=>{const b=e.target.closest(".pill");if(b)pick(+b.dataset.i)});
 $("#v-pick").onclick=()=>showView("pick");$("#v-guide").onclick=()=>showView("guide");
-$("#steps").addEventListener("click",e=>{const b=e.target.closest(".copy");if(!b)return;
-  const t=b.dataset.t,done=()=>{b.textContent="복사됨";setTimeout(()=>b.textContent="복사",1400)};
-  const sel=()=>{const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="선택됨, Ctrl+C";setTimeout(()=>b.textContent="복사",2000)};
-  try{navigator.clipboard.writeText(t).then(done,sel)}catch(err){sel()}});
+/* 프롬프트: 빈칸은 입력칸으로, 같은 이름의 빈칸은 한 번만 채우면 모두 채워지고 다음에도 기억됨 */
+let FILL={};try{FILL=JSON.parse(localStorage.getItem("fill")||"{}")||{}}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function promptBox(text,note){
+  const html=text.split(/(\[[^\]]+\])/).map(part=>{
+    const m=part.match(/^\[([^\]]+)\]$/);
+    if(!m)return esc(part).replace(/\n/g,"<br>");
+    const l=m[1];
+    if(/붙여넣기$/.test(l))return `<mark class="paste" data-l="${esc(l)}">[${esc(l)}]</mark>`;
+    return `<input class="blank" type="text" data-l="${esc(l)}" placeholder="${esc(l)}" value="${esc(FILL[l]||"")}" aria-label="${esc(l)}" spellcheck="false">`;
+  }).join("");
+  return `<div class="pwrap">${note?`<p class="pnote">${esc(note)}</p>`:""}<div class="prompt"><div class="ptext">${html}</div><button class="copy" type="button">복사</button></div><textarea class="pfall" readonly hidden aria-label="복사할 프롬프트"></textarea></div>`;
+}
+function fit(inp){const s=inp.value||inp.placeholder;let w=0;for(const ch of s)w+=/[ㄱ-힝]/.test(ch)?1:.56;inp.style.width=(w+1.1).toFixed(2)+"em"}
+function assemble(box){let out="";box.querySelector(".ptext").childNodes.forEach(n=>{
+  if(n.nodeType===3)out+=n.textContent;else if(n.tagName==="BR")out+="\n";
+  else if(n.tagName==="INPUT")out+=n.value.trim()||("["+n.dataset.l+"]");else out+=n.textContent});return out}
+const panelEl=$("#panel");
+panelEl.addEventListener("input",e=>{const inp=e.target.closest(".blank");if(!inp)return;
+  const l=inp.dataset.l,v=inp.value;FILL[l]=v;
+  panelEl.querySelectorAll(".blank").forEach(o=>{if(o!==inp&&o.dataset.l===l)o.value=v;if(o.dataset.l===l)fit(o)});
+  try{localStorage.setItem("fill",JSON.stringify(FILL))}catch(err){}});
+panelEl.addEventListener("click",e=>{const b=e.target.closest(".copy");if(!b)return;
+  const wrap=b.closest(".pwrap"),t=assemble(b.closest(".prompt")),ta=wrap.querySelector(".pfall");
+  const left=wrap.querySelectorAll(".blank").length&&[...wrap.querySelectorAll(".blank")].some(x=>!x.value.trim());
+  const done=()=>{ta.hidden=true;b.textContent=left?"복사됨 · 빈칸 있음":"복사됨";b.classList.add("ok");setTimeout(()=>{b.textContent="복사";b.classList.remove("ok")},1600)};
+  const manual=()=>{ta.value=t;ta.hidden=false;ta.style.height="auto";ta.style.height=ta.scrollHeight+"px";ta.focus();ta.select();
+    let ok=false;try{ok=document.execCommand("copy")}catch(err){}if(ok){done();return}b.textContent="Ctrl+C로 복사";setTimeout(()=>b.textContent="복사",2400)};
+  try{navigator.clipboard.writeText(t).then(done,manual)}catch(err){manual()}});
 function scores(q){
   const ws=q.toLowerCase().split(/\s+/).map(w=>w.replace(/(하고싶어|하고 싶어|해줘|하기|할래|하려고|해야해|해야|싶어|만들기)$/,"")).filter(w=>w.length>=2||w==="글");
   return K.map((k,i)=>{const hay=(k[0]+" "+SYN[i]+" "+k[1].map(c=>c[0]).join(" ")).toLowerCase();
@@ -411,6 +581,51 @@ q.addEventListener("keydown",e=>{if(e.key==="Escape"){q.value="";q.dispatchEvent
 $("#rows").addEventListener("click",e=>{const h=e.target.closest(".row-h");if(!h)return;const row=h.parentElement,open=!row.classList.contains("open");
   document.querySelectorAll(".row").forEach(r=>{r.classList.remove("open");r.querySelector(".row-h").setAttribute("aria-expanded","false")});
   if(open){row.classList.add("open");h.setAttribute("aria-expanded","true")}});
+
+/* 첫 방문 사용법: 한 장씩 넘기고, 마지막 장에서만 시작하기. 처음엔 끝까지 봐야 닫히고, ? 로 다시 열면 언제든 닫을 수 있음 */
+const INTRO=[
+ ["pick","할 일 고르기","","검색창에 <em>\"유튜브 영상 만들고 싶어\"</em>처럼 편하게 적거나, 아래쪽 <em>키워드</em>를 눌러요."],
+ ["mine","내 AI 고르기","선택","검색창 바로 아래에서 주로 쓰는 AI를 고르면, 그 AI로 하는 방법을 결과 맨 위에 알려줘요."],
+ ["tabs","추천 보기","","결과 위쪽 탭으로 바꿔 봐요. <em>상황별 추천</em>은 지금 맞는 AI를, <em>추천 사용순서</em>는 여러 AI를 이어 쓰는 순서를 보여줘요."],
+ ["prompt","프롬프트 복사하기","","상황 줄을 펼치면 프롬프트가 있어요. <em>보라색 빈칸</em>을 채우고 <em>복사</em>를 눌러 AI에 붙여 넣으세요."]
+];
+const MINI=`<div class="m-title">XIII</div>
+ <div class="m-part m-pick"><div class="m-search">⌕ <i>유튜브 영상 만들고 싶어</i></div></div>
+ <div class="m-part m-mine">내가 주로 쓰는 AI <span>상관없음</span> <b>ChatGPT</b> <span>Claude</span> <span>Gemini</span></div>
+ <div class="m-part m-pick"><div class="m-pills"><span>글쓰기</span><span>공부·시험</span><span>코딩</span><span class="on">영상 만들기</span><span>발표자료</span></div></div>
+ <div class="m-panel"><div class="m-part m-tabs"><span class="on">상황별 추천</span><span>추천 사용순서</span></div>
+  <div class="m-row"><span>이미지를 영상으로</span><b>Kling · Runway</b></div>
+  <div class="m-part m-prompt"><span><u>바다 위 고래</u>가 <u>천천히 헤엄쳐</u>. 카메라는…</span><em>복사</em></div></div>`;
+$("#track").innerHTML=INTRO.map((s,i)=>`<section class="slide" aria-hidden="${i>0}">
+  <div class="mini" data-hl="${s[0]}" aria-hidden="true">${MINI}</div>
+  <h2>${s[1]}${s[2]?`<small>${s[2]}</small>`:""}</h2><p class="desc">${s[3]}</p></section>`).join("");
+$("#dots").innerHTML=INTRO.map(()=>"<i></i>").join("");
+const intro=$("#intro");let lastFocus=null,step=0,canSkip=false;
+function goStep(n){step=Math.max(0,Math.min(INTRO.length-1,n));
+  $("#track").style.transform=`translateX(${-100*step}%)`;
+  document.querySelectorAll(".slide").forEach((s,i)=>s.setAttribute("aria-hidden",i!==step));
+  document.querySelectorAll("#dots i").forEach((d,i)=>{d.className=i===step?"on":(i<step?"done":"")});
+  $("#intro-count").textContent=`${step+1} / ${INTRO.length}`;
+  $("#intro-prev").disabled=step===0;
+  const last=step===INTRO.length-1,nx=$("#intro-next");nx.textContent=last?"시작하기":"다음";nx.classList.toggle("final",last);
+  $("#intro-live").textContent=`${step+1}단계: ${INTRO[step][1]}`}
+function openIntro(skippable){canSkip=skippable;lastFocus=document.activeElement;$("#intro-x").hidden=!canSkip;
+  goStep(0);intro.classList.remove("out");intro.hidden=false;setTimeout(()=>$("#intro-next").focus(),50)}
+function closeIntro(){if(intro.hidden)return;try{localStorage.setItem("seenIntro","1")}catch(e){}
+  intro.classList.add("out");setTimeout(()=>{intro.hidden=true;intro.classList.remove("out");(lastFocus&&lastFocus.focus?lastFocus:$("#q")).focus({preventScroll:true})},230)}
+$("#intro-next").addEventListener("click",()=>{if(step===INTRO.length-1)closeIntro();else{goStep(step+1);$("#intro-next").focus()}});
+$("#intro-prev").addEventListener("click",()=>{goStep(step-1);(step===0?$("#intro-next"):$("#intro-prev")).focus()});
+$("#intro-x").addEventListener("click",closeIntro);
+$("#help").addEventListener("click",()=>openIntro(true));
+intro.addEventListener("click",e=>{if(e.target===intro&&canSkip)closeIntro()});
+addEventListener("keydown",e=>{if(intro.hidden)return;
+  if(e.key==="Escape"&&canSkip)closeIntro();
+  else if(e.key==="ArrowRight"&&step<INTRO.length-1)goStep(step+1);
+  else if(e.key==="ArrowLeft")goStep(step-1);
+  else if(e.key==="Tab"){const f=[...intro.querySelectorAll("button:not([hidden]):not(:disabled)")];const k=f.indexOf(document.activeElement);
+    e.preventDefault();f[(k+(e.shiftKey?-1:1)+f.length)%f.length].focus()}});
+let seen=false;try{seen=localStorage.getItem("seenIntro")==="1"}catch(e){}
+if(!seen)openIntro(false);
 
 /* 테마 */
 const tg=$("#theme"),root=document.documentElement;
